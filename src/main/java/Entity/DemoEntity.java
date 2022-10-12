@@ -1,11 +1,16 @@
 package Entity;
 
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Table(name = "mbpprofile")
 @Entity
-public class demoEntity {
+@AllArgsConstructor
+@NoArgsConstructor
+public class DemoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
