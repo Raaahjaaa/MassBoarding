@@ -1,32 +1,31 @@
 package Entity;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Table(name = "mbpprofile")
 @Entity
 public class demoEntity {
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstName;
-    private String lastName;
+    private String fieldName;
+    private String fieldValue;
 
-    public String getFirstName() {
-        return firstName;
+    public String getFieldName() {
+        return fieldName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getFieldValue() {
+        return fieldValue;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setFieldValue(String fieldValue) {
+        this.fieldValue = fieldValue;
     }
 
     public Long getId() {
