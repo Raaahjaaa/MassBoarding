@@ -1,4 +1,4 @@
-package Entity;
+package com.example.demoWebsite.Entity;
 
 
 import lombok.AllArgsConstructor;
@@ -14,23 +14,23 @@ public class DemoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String fieldName;
-    private String fieldValue;
+    private String fieldname;
+    private String fieldvalue;
 
-    public String getFieldName() {
-        return fieldName;
+    public String getFieldname() {
+        return fieldname;
     }
 
-    public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
+    public void setFieldname(String fieldname) {
+        this.fieldname = fieldname;
     }
 
-    public String getFieldValue() {
-        return fieldValue;
+    public String getFieldvalue() {
+        return fieldvalue;
     }
 
-    public void setFieldValue(String fieldValue) {
-        this.fieldValue = fieldValue;
+    public void setFieldvalue(String fieldvalue) {
+        this.fieldvalue = fieldvalue;
     }
 
     public Long getId() {
