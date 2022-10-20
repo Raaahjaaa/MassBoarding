@@ -5,8 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
-
+@SpringBootApplication(scanBasePackages = {"com.example.demoWebsite"})
 public class DemoWebsiteApplication {
 
 	public static void main(String[] args) {
