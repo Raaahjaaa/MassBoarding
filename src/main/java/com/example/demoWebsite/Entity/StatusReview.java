@@ -1,14 +1,14 @@
 package com.example.demoWebsite.Entity;
 
 public class StatusReview {
-    private Object merchantProfile;
+    private String merchantProfile;
     private String locationAddress;
     private String financial;
     private String solution;
     private String bussinessLegalVerification;
     private String principalInformationSigner;
 
-    public Object getMerchantProfile() {
+    public String getMerchantProfile() {
         return merchantProfile;
     }
 
