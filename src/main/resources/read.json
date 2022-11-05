@@ -1,6 +1,6 @@
 {
-  "merchant": {
-    "merchantProfile": {
+  "merchantProfile": {
+    "merchant": {
       "value": "NS",
       "highlight": "false"
     },

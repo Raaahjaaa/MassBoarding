@@ -34,18 +34,28 @@ public class DemoController {
     @Value("classpath:status.xlsx")
     Resource resource3;
 
-    public void getObj(JsonNode jsonNode){
-        if (jsonNode.isObject()){
-            Iterator<String> isobj = jsonNode.fieldNames();
+    public void getObj(JsonNode jsonNode,Iterator<String> sb){
 
-            while (isobj.hasNext()){
-                String fieldName = isobj.next();
+
+
+        if (jsonNode.isObject() && jsonNode!=null){
+
+
+                String fieldName = sb.next();
                 JsonNode fieldValue = jsonNode.get(fieldName);
-                System.out.println(fieldValue.get("value"));
-                getObj(fieldValue);
-            }
-        }
+    Iterator<String> nb=fieldValue.fieldNames();
+    while(nb.hasNext()) {
+                JsonNode mainvalue=jsonNode.get(fieldName).get(nb.next());
+        System.out.println(mainvalue.get("value"));
     }
+
+        }
+
+        getObj(jsonNode,sb.next());
+
+}
+
+}
 
     ArrayList<ArrayList<String>> s1=new ArrayList<>();
     ArrayList<String> arr=new ArrayList<String>();
@@ -166,8 +176,10 @@ int count= arr.size();
         File file= jsonFile.getFile();
         System.out.println(file.isFile());
         JsonNode jsonNode=mapper.readTree(file);
-        System.out.println(jsonNode.get("merchantProfile").isObject());
-//        getObj(jsonNode.get("merchantProfile"));
+        System.out.println(jsonNode.get("merchantProfile"));
+       Iterator<String> sb= jsonNode.fieldNames();
+       getObj(jsonNode,sb);
+
     }
 
 
