@@ -1,10 +1,7 @@
 package com.example.demoWebsite.Controller;
 
 
-import com.example.demoWebsite.Entity.DemoEntityPojo;
-import com.example.demoWebsite.Entity.StatusReview;
 import com.example.demoWebsite.Service.DemoService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -14,11 +11,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
@@ -26,23 +21,36 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 
 @RestController
 public class DemoController {
 
 
     @Value("classpath:student.xlsx")
-    Resource resource;
+    Resource excelFile;
     @Value("classpath:read.json")
-    Resource resource1;
+    Resource jsonFile;
     @Value("classpath:status.xlsx")
     Resource resource3;
+
+    public void getObj(JsonNode jsonNode){
+        if (jsonNode.isObject()){
+            Iterator<String> isobj = jsonNode.fieldNames();
+
+            while (isobj.hasNext()){
+                String fieldName = isobj.next();
+                JsonNode fieldValue = jsonNode.get(fieldName);
+                System.out.println(fieldValue.get("value"));
+                getObj(fieldValue);
+            }
+        }
+    }
+
     ArrayList<ArrayList<String>> s1=new ArrayList<>();
     ArrayList<String> arr=new ArrayList<String>();
     private DemoService demoService;
+
     @Autowired
     public DemoController(DemoService demoService) {
         this.demoService = demoService;
@@ -54,10 +62,11 @@ public class DemoController {
     }
 
     @GetMapping("/get")
-    public void getdemo(@RequestBody DemoEntityPojo demoEntityPojo) throws IOException {
+    public void getdemo() throws IOException {
         ObjectMapper mapper=new ObjectMapper();
-ArrayList<String> arr2=new ArrayList<>();
-        File file=resource1.getFile();
+        ArrayList<String> arr2=new ArrayList<>();
+
+        File file= jsonFile.getFile();
         JsonNode jsonNode=mapper.readTree(file);
 //     System.out.println(jsonNode.fieldNames());
         Iterator<String> st=jsonNode.get("merchant").fieldNames();
@@ -91,7 +100,7 @@ int count= arr.size();
              }
          }
      }
-        FileOutputStream fo=new FileOutputStream("/home/michael/Downloads/status.xlsx");
+        FileOutputStream fo=new FileOutputStream("/Users/test/Downloads/status.xlsx");
         workbook.write(fo);
         fo.close();
 
@@ -108,7 +117,7 @@ int count= arr.size();
     }
     @GetMapping("/getexcel")
     public void getExcel() throws IOException {
-        File file= resource.getFile();
+        File file= excelFile.getFile();
         System.out.println(file.exists());
 
         FileInputStream inputStream=new FileInputStream(file);
@@ -147,6 +156,18 @@ int count= arr.size();
                 System.out.println();
             }
         }
+    }
+
+    @GetMapping("/test")
+    public void test() throws IOException {
+        ObjectMapper mapper=new ObjectMapper();
+        ArrayList<String> arr2=new ArrayList<>();
+
+        File file= jsonFile.getFile();
+        System.out.println(file.isFile());
+        JsonNode jsonNode=mapper.readTree(file);
+        System.out.println(jsonNode.get("merchantProfile").isObject());
+//        getObj(jsonNode.get("merchantProfile"));
     }
 
 
