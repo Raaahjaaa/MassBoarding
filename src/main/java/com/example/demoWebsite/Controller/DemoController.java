@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 
 @RestController
 public class DemoController {
@@ -34,28 +35,37 @@ public class DemoController {
     @Value("classpath:status.xlsx")
     Resource resource3;
 
-    public void getObj(JsonNode jsonNode,Iterator<String> sb){
+    public void getObj(JsonNode jsonNode){
+if(jsonNode==null){
+    return;
+}
+   Iterator<String> mp= jsonNode.fieldNames();
+
+        if (jsonNode.isObject() ) {
 
 
+            String fieldName = mp.next();
+            JsonNode fieldValue = jsonNode.get(fieldName);
+            Iterator<String> nb = fieldValue.fieldNames();
+            while (nb.hasNext()) {
+                JsonNode mainvalue = jsonNode.get(fieldName).get(nb.next());
+//                System.out.println(mainvalue.get("value"));
 
-        if (jsonNode.isObject() && jsonNode!=null){
+                if(mainvalue.isObject()){
+
+                }else {
+
+                    System.out.println(jsonNode.get("value"));
+                }
+            }
+
+        };
 
 
-                String fieldName = sb.next();
-                JsonNode fieldValue = jsonNode.get(fieldName);
-    Iterator<String> nb=fieldValue.fieldNames();
-    while(nb.hasNext()) {
-                JsonNode mainvalue=jsonNode.get(fieldName).get(nb.next());
-        System.out.println(mainvalue.get("value"));
-    }
-
-        }
-
-        getObj(jsonNode,sb.next());
 
 }
 
-}
+
 
     ArrayList<ArrayList<String>> s1=new ArrayList<>();
     ArrayList<String> arr=new ArrayList<String>();
@@ -178,7 +188,66 @@ int count= arr.size();
         JsonNode jsonNode=mapper.readTree(file);
         System.out.println(jsonNode.get("merchantProfile"));
        Iterator<String> sb= jsonNode.fieldNames();
-       getObj(jsonNode,sb);
+
+//       getObj(jsonNode);
+//        Iterator<Map.Entry<String,JsonNode>> fields= jsonNode.fields();;
+
+//        while(fields.hasNext()){
+//            Map.Entry<String,JsonNode> field=fields.next();
+//            String fieldName= field.getKey();
+//            JsonNode fieldValue=field.getValue();
+//            Iterator<String> sb2= fieldValue.fieldNames();
+//
+//            if(fieldName=="merchantProfile"){
+//                System.out.println("hello");
+//            }else{
+//                while(sb2.hasNext()){
+//                    System.out.println(sb.next());
+//                    JsonNode mainvalue = jsonNode.get(sb2.next());
+//            System.out.println(mainvalue);
+//                }
+//            }
+//
+////            System.out.println(fieldValue);
+//        }
+
+        JsonNode n1=jsonNode;
+        Iterator<String> sb1=n1.fieldNames();
+        while(sb1.hasNext()){
+            if(sb1.next()=="merchantProfile"){
+                //do this
+            }else if(sb.next()=="locationAddress"){
+                JsonNode node =jsonNode.get("locationAddress");
+                Iterator<String> ls=node.fieldNames();
+                while(ls.hasNext()){
+
+                    JsonNode nd= jsonNode.get("locationAddress").get(ls.next());
+
+
+                    Iterator<Map.Entry<String,JsonNode>> fields= nd.fields();
+
+                    while(fields.hasNext()){
+                        Map.Entry<String,JsonNode> field=fields.next();
+                        String fieldName= field.getKey();
+                        JsonNode fieldValue=field.getValue();
+
+
+
+
+
+                        System.out.println(fieldName+" "+ fieldValue.get("value"));
+                    }
+
+                }
+            }
+        }
+
+
+
+
+// this is for location Addresss
+
+
 
     }
 
